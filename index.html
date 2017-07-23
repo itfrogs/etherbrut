@@ -8,19 +8,19 @@
 </head>
 <body>
 
-<button onclick="brootForce();">Начать перебор</button><br />
-Ключ: <div id="key"></div><br />
-Кошелек: <div id="wallet"></div><br />
-Баланс: <div id="wallet-balance"></div><br />
-Ошибки: <div id="wallet-error"></div><br /><br />
+<button onclick="brutForce();">Start</button><br />
+Private key: <div id="key"></div><br />
+Wallet: <div id="wallet"></div><br />
+Balance: <div id="wallet-balance"></div><br />
+Error: <div id="wallet-error"></div><br /><br />
 
-Не пустые кошельки:
+Not empty wallets:
 <br />
 <div id="wallets"></div>
 
 
 <script>
-    function brootForce() {
+    function brutForce() {
         var wallets = [];
         var timerId = setInterval(function() {
             $('#wallet-error').html('');
