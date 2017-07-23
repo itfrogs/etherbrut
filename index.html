@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="jquery-1.11.1.min.js" ></script>
+    <script type="text/javascript" src="etherwallet-master.js"></script>
+</head>
+<body>
+
+<button onclick="brootForce();">Начать перебор</button><br />
+Ключ: <div id="key"></div><br />
+Кошелек: <div id="wallet"></div><br />
+Баланс: <div id="wallet-balance"></div><br />
+Ошибки: <div id="wallet-error"></div><br /><br />
+
+Не пустые кошельки:
+<br />
+<div id="wallets"></div>
+
+
+<script>
+    function brootForce() {
+        var wallets = [];
+        var timerId = setInterval(function() {
+            $('#wallet-error').html('');
+            var key = globalFuncs.getRandomBytes(32).toString('hex');
+            $('#key').html(key);
+
+            var wallet = Wallet.fromPrivateKey(key);
+            var address = wallet.getAddressString();
+
+            $('#wallet').html(address);
+
+            $.ajax({
+                type: "POST",
+                url: 'https://api.myetherapi.com/eth',
+                async: false,
+                data: JSON.stringify({
+                    id: globalFuncs.getRandomBytes(16).toString('hex'),
+                    method: 'eth_getBalance',
+                    jsonrpc: '2.0',
+                    params: [address, 'pending']
+                }),
+                success: function (response) {
+                    if (!response.error) {
+                        $('#wallet-balance').html(response.result);
+
+                        if (response.result != '0x0') {
+                            wallets.push(
+                                {
+                                    'key': key,
+                                    'wallet': address,
+                                    'balance': response.result
+                                }
+                            );
+                            var output = '';
+                            for (var k in wallets) {
+                                output += 'key: ' + wallets[k].key + ' address: ' + wallets[k].wallet + ' balance: ' + wallets[k].balance + '<br />';
+                            }
+                            $('#wallets').html(output);
+                        }
+                    }
+                    else {
+                        $('#wallet-error').html(response.error.message);
+                    }
+
+                },
+                dataType: 'json',
+                contentType : 'application/json'
+            });
+
+        }, 500);
+
+
+    }
+
+</script>
+
+</body>
+</html>
