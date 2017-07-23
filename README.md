@@ -6,7 +6,9 @@
 <p>
     The script generates random private keys and their corresponding wallets, checks the balance of these wallets. If the balance is not zero, then this wallet with its key will be saved on the screen.
 </p>
-
+<p>
+    To run this script, you do not need hosting. Just unpack it to your computer, open the browser, go to the menu, click File - Open and select the index.html. On the opened page, click Start.
+</p>
 <p>
     If you want to thank the developer, you can transfer some money to his wallet:
 </p>
